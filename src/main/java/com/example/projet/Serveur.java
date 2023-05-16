@@ -91,6 +91,7 @@ public class Serveur {
          * @return
          */
         private String getFileContent(String formData){
+            LOGGER.info(formData);
             var start = formData.indexOf("; filename=");
             if (start >= 0){
                 var nameEnd = formData.indexOf("\n", start);
@@ -98,7 +99,7 @@ public class Serveur {
                 LOGGER.info(filename);
 
                 var fileContentStart = formData.indexOf("\n", nameEnd);
-                var fileContentEnd = formData.indexOf("------WebKitFormBoundary", fileContentStart);
+                var fileContentEnd = formData.indexOf("------", fileContentStart);
                 var fileContent = formData.substring(fileContentStart, fileContentEnd);
                 LOGGER.info(fileContent);
                 return fileContent;
