@@ -4,7 +4,6 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -18,14 +17,14 @@ import java.util.stream.Collectors;
 public class Serveur {
     // logger pour trace
     private static final Logger LOGGER = Logger.getLogger( Serveur.class.getName() );
-    private static final String SERVEUR = "localhost"; // url de base du service
+    private static final String SERVEUR_NAME = "localhost"; // url de base du service
     private static final int PORT = 8001; // port serveur
     private static final String URL = "/test"; // url de base du service
     // boucle principale qui lance le serveur sur le port 8001, à l'url test
     public static void main(String[] args) {
         HttpServer server = null;
         try {
-            server = HttpServer.create(new InetSocketAddress(SERVEUR, PORT), 0);
+            server = HttpServer.create(new InetSocketAddress(SERVEUR_NAME, PORT), 0);
 
             server.createContext(URL, new  MyHttpHandler());
             ThreadPoolExecutor threadPoolExecutor = (ThreadPoolExecutor) Executors.newFixedThreadPool(10);
