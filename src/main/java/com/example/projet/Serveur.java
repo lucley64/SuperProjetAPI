@@ -75,6 +75,11 @@ public class Serveur {
             outputStream.close();
         }
 
+        /**
+         * Gets the body of a file from a raw formdata
+         * @param formData 
+         * @return
+         */
         private String getFileContent(String formData){
             var start = formData.indexOf("; filename=");
             if (start >= 0){
@@ -92,11 +97,23 @@ public class Serveur {
 
         }
 
+        /**
+         * Handles a post request and gets the first file which is in it
+         * For example to trigger this correctly, you can use:
+         * <pre>
+         * let input = document.querySelector("input[type=file]");
+         * let data = new FormData();
+         * data.append("file", inp.files[0]);
+         * data.append("user", username);
+         * fetch("http://localhost:8001/test", {method: 'POST', body: data})
+         * </pre>
+         * 
+         * 
+         * @param httpExchange the content of the request
+         * @return a string containing the body of the file
+         */
         private String handlePostRequest(HttpExchange httpExchange){
             var body = new BufferedReader(new InputStreamReader(httpExchange.getRequestBody(), StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
-            
-
-
             return getFileContent(body);
         }
 
