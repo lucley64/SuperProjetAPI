@@ -4,19 +4,21 @@ import java.io.File;
 import java.util.Scanner;
 import java.util.List;
 
-public class CodeAnalysor {
+public class CodeAnalyzer {
   private Scanner scanner;
   private File pythonFile;
   private List<String> lines;
   private int nbLines;
   private int functionNumber;
+  private List<Integer> nbLineFunction;
   
-  public CodeAnalysor(File inputFile_) throws Exception {
+  public CodeAnalyzer(File inputFile_) throws Exception {
     pythonFile = inputFile_;
     scanner = new Scanner(pythonFile);
+    read();
   }
 
-  public void read() {
+  private void read() {
     String nextLine;
     while (scanner.hasNextLine()) {
       nextLine = scanner.nextLine();
@@ -27,12 +29,30 @@ public class CodeAnalysor {
   }
 
   private boolean valid(String line) {
-    return true;
+    return !line.equals("\n");
   }
 
   public int getNbLines() {
     nbLines = lines.size();
     return nbLines;
+  }
+
+  private String removeSpaces(String s) {
+    int start = 0;
+    while (s.charAt(start) == ' ' || s.charAt(start) == '\t') {
+      start++;
+    }
+    return s.substring(start);
+  }
+
+  private void getFunctionLine() {
+    boolean inFunction = false;
+    int nbLines = 0;
+    for (String line : lines) {
+      if (removeSpaces(line).startsWith("def ")) {
+        inFunction = true;
+      }
+    }
   }
 
   public int getFunctionMin() {
@@ -50,14 +70,25 @@ public class CodeAnalysor {
   public int getFunctionNb() {
     functionNumber = 0;
     for (String line : lines) {
-      if (line.startsWith("def ")) {
+      if (removeSpaces(line).startsWith("def ")) {
         functionNumber++;
       }
     }
     return functionNumber;
   }
 
-  public int nbOccurence() {
-    return 0;
+  public int nbOccurence(String s) {
+    int nbOccurence = 0;
+
+    for (String line : lines) {
+      int start = 0;
+      nbOccurence--;
+      while (start != -1) {
+        nbOccurence++;
+        start = line.indexOf(s, start);
+      }
+    }
+
+    return nbOccurence;
   }
 }
