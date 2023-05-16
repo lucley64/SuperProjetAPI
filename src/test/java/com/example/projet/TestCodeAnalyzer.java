@@ -21,7 +21,7 @@ class TestCodeAnalyzer {
 
     public static void main(String[] args) throws Exception{
         File myFile = new File("./src/main/res/python/test.py");
-        CodeAnalyzer test = new CodeAnalyzer("def main(x, y):\n    return 2");
+        CodeAnalyzer test = new CodeAnalyzer("");
         System.out.println(test.getFunctionAvg());
     }
 }
