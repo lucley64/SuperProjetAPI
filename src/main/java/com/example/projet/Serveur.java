@@ -14,6 +14,8 @@ import java.util.concurrent.Executors;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import org.json.JSONObject;
+
 public class Serveur {
     // logger pour trace
     private static final Logger LOGGER = Logger.getLogger( Serveur.class.getName() );
@@ -66,6 +68,14 @@ public class Serveur {
                     .append("</h1>")
                     .append("</body>")
                     .append("</html>");
+
+            // var analyser = new CodeAnalyzer(null);
+            // var json = new JSONObject();
+            // json.put("lines", analyser.getNbLines());
+            // json.put("functions", analyser.getFunctionNb());
+            // json.put("functionsLinesMin", analyser.getFunctionMin());
+            // json.put("functionsLinesMax", analyser.getFunctionMax());
+            // json.put("functionsLinesAvg", analyser.getFunctionAvg());
             // encode HTML content
             String htmlResponse = htmlBuilder.toString();
             // this line is a must
