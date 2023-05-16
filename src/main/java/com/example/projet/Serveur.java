@@ -3,12 +3,17 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.nio.charset.StandardCharsets;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.Executors;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 public class Serveur {
     // logger pour trace
@@ -71,6 +76,31 @@ public class Serveur {
             outputStream.close();
         }
 
+        private String getFileContent(String formData){
+            var start = formData.indexOf("; filename=");
+            if (start >= 0){
+                var nameEnd = formData.indexOf("\n", start);
+                var filename = formData.substring(start + 11, nameEnd);
+                LOGGER.info(filename);
+
+                var fileContentStart = formData.indexOf("\n", nameEnd);
+                var fileContentEnd = formData.indexOf("------WebKitFormBoundary", fileContentStart);
+                var fileContent = formData.substring(fileContentStart, fileContentEnd);
+                LOGGER.info(fileContent);
+                return fileContent;
+            }
+            return "";
+
+        }
+
+        private String handlePostRequest(HttpExchange httpExchange){
+            var body = new BufferedReader(new InputStreamReader(httpExchange.getRequestBody(), StandardCharsets.UTF_8)).lines().collect(Collectors.joining("\n"));
+            
+
+
+            return getFileContent(body);
+        }
+
         // Interface method to be implemented
         @Override
         public void handle(HttpExchange httpExchange) throws IOException {
@@ -79,11 +109,10 @@ public class Serveur {
             if("GET".equals(httpExchange.getRequestMethod())) {
                 requestParamValue = handleGetRequest(httpExchange);
             }
-            /* TODO : manage POST REQUEST
-            else if("POST".equals(httpExchange)) {
+            else if("POST".equals(httpExchange.getRequestMethod())) {
                 requestParamValue = handlePostRequest(httpExchange);
             }
-            */
+            LOGGER.info(requestParamValue);
             handleResponse(httpExchange,requestParamValue);
 
         }
