@@ -67,7 +67,7 @@ public class CodeAnalyzer {
   private boolean valid(String line) {
     int start = 0;
     while (start != -1) {
-      start++;
+      start = line.indexOf(' ');
       line = line.substring(start);
     } 
     return !line.equals("");
