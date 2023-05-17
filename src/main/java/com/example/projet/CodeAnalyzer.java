@@ -48,8 +48,12 @@ public class CodeAnalyzer {
   private void readString() {
     int start = 0;
     int end = fileContent.indexOf("\n");
+    String line;
     while (end != -1) {
-      lines.add(fileContent.substring(start, end));
+      line = fileContent.substring(start, end);
+      if (valid(line)) {
+        lines.add(line);
+      }
       start = end + 1;
       end = fileContent.indexOf("\n", start);
     }
@@ -59,6 +63,11 @@ public class CodeAnalyzer {
   }
 
   private boolean valid(String line) {
+    int start = 0;
+    while (start != -1) {
+      start++;
+      line = line.substring(start);
+    } 
     return !line.equals("");
   }
 
