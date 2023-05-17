@@ -65,11 +65,15 @@ public class CodeAnalyzer {
   }
 
   private boolean valid(String line) {
-    int start = 0;
-    while (start != -1) {
-      start = line.indexOf(' ');
-      line = line.substring(start);
-    } 
+    int start = -1;
+    int next = -1;
+    while (next == start) {
+      start++;
+      next = line.indexOf(' ', start);
+      if (start + 1 < line.length()) {
+        line = line.substring(start + 1);
+      }
+    }
     return !line.equals("");
   }
 
