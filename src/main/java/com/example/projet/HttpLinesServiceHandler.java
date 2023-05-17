@@ -56,7 +56,7 @@ class HttpLinesServiceHandler extends AHandler {
         if("POST".equals(httpExchange.getRequestMethod())) {
             requestParamValue = handlePostRequest(httpExchange);
             Serveur.LOGGER.info(requestParamValue);
-            handleResponse(httpExchange,requestParamValue, createJson(requestParamValue));
+            handleResponse(httpExchange, createJson(requestParamValue));
         }
         else{
             // TODO handle non supported http

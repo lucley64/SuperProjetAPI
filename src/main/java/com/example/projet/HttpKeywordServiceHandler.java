@@ -20,11 +20,14 @@ public class HttpKeywordServiceHandler extends AHandler {
      * For example to trigger this correctly, you can use:
      * 
      * <pre>
+     * {@code <script>}
      * let input = document.querySelector("input[type=file]");
      * let data = new FormData();
      * data.append("file", inp.files[0]);
+     * data.append("keywords", "keyword1 keyword2");
      * data.append("user", username);
-     * fetch("http://localhost:8001/lines", {method: 'POST', body: data})
+     * fetch("http://localhost:8001/keywords", {method: 'POST', body: data})
+     * {@code </script>}
      * </pre>
      * 
      * 
@@ -36,6 +39,11 @@ public class HttpKeywordServiceHandler extends AHandler {
                 .collect(Collectors.joining("\n"));
     }
 
+    /**
+     * gets the keywords from the formdata
+     * @param input the form data
+     * @return a list of the keywords
+     */
     private List<String> getKeywords(String input) {
         var start = input.indexOf("keywords");
         if (start >= 0){
@@ -48,6 +56,12 @@ public class HttpKeywordServiceHandler extends AHandler {
         return new LinkedList<>();
     }
 
+    /**
+     * creates the return json object
+     * @param content the content of the file
+     * @param keywords the list of keyword
+     * @return the json object
+     */
     private JSONObject createJson(String content, List<String> keywords) {
         var json = new JSONObject();
 
@@ -68,7 +82,7 @@ public class HttpKeywordServiceHandler extends AHandler {
         if ("POST".equals(httpExchange.getRequestMethod())) {
             requestParamValue = handlePostRequest(httpExchange);
             Serveur.LOGGER.info(requestParamValue);
-            handleResponse(httpExchange, requestParamValue, createJson(getFileContent(requestParamValue), getKeywords(requestParamValue)));
+            handleResponse(httpExchange, createJson(getFileContent(requestParamValue), getKeywords(requestParamValue)));
         } else {
             // TODO handle non supported http
         }

@@ -10,23 +10,14 @@ import com.sun.net.httpserver.HttpHandler;
 
 public abstract class AHandler implements HttpHandler {
     /**
-     * Generate simple response html page
-     * 
-     * @param httpExchange
-     * @param requestParamVaue
+     * Handles the response to the client
+     * @param httpExchange the http request stream
+     * @param returnJsonObject the json to return
+     * @throws IOException
      */
-    protected void handleResponse(HttpExchange httpExchange, String requestParamValue, JSONObject returnJsonObject)
+    protected void handleResponse(HttpExchange httpExchange, JSONObject returnJsonObject)
             throws IOException {
         OutputStream outputStream = httpExchange.getResponseBody();
-        StringBuilder htmlBuilder = new StringBuilder();
-        htmlBuilder.append("<html>")
-                .append("<body>")
-                .append("<h1>")
-                .append("Hello ")
-                .append(requestParamValue)
-                .append("</h1>")
-                .append("</body>")
-                .append("</html>");
 
         // encode HTML content
         String htmlResponse = returnJsonObject.toString();
@@ -40,8 +31,8 @@ public abstract class AHandler implements HttpHandler {
     /**
      * Gets the body of a file from a raw formdata
      * 
-     * @param formData
-     * @return
+     * @param formData the form data
+     * @return the body of the file
      */
     protected String getFileContent(String formData) {
         Serveur.LOGGER.info(formData);
