@@ -1,34 +1,36 @@
 package com.example.projet;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.Stack;
 
 public class CodeAnalyzer {
   private Scanner scanner;
   private File pythonFile;
   private LinkedList<String> lines;
-  private int nbLines;
+  
   private int functionNumber;
   private LinkedList<Integer> nbLineFunction;
   private String fileContent;
   
-  public CodeAnalyzer(File inputFile_) throws Exception {
-    pythonFile = inputFile_;
+  public CodeAnalyzer(File inputFile) throws FileNotFoundException {
+    pythonFile = inputFile;
     scanner = new Scanner(pythonFile);
-    lines = new LinkedList<String>();
-    nbLineFunction = new LinkedList<Integer>();
+    lines = new LinkedList<>();
+    nbLineFunction = new LinkedList<>();
 
     readFile();
     calculateFunctionLine();
     calculateFunctionNb();
   }
 
-  public CodeAnalyzer(String fileContent_) {
-    fileContent = fileContent_;
-    lines = new LinkedList<String>();
-    nbLineFunction = new LinkedList<Integer>();
+  public CodeAnalyzer(String fileContent) {
+    this.fileContent = fileContent;
+    lines = new LinkedList<>();
+    nbLineFunction = new LinkedList<>();
 
     readString();
     calculateFunctionLine();
@@ -72,6 +74,7 @@ public class CodeAnalyzer {
   }
 
   public int getNbLines() {
+    int nbLines;
     nbLines = lines.size();
     return nbLines;
   }
@@ -101,8 +104,9 @@ public class CodeAnalyzer {
 
   private void calculateFunctionLine() {
     nbLineFunction.clear();
-    Stack<Integer> stack = new Stack<Integer>();
-    Stack<Integer> indents = new Stack<Integer>();
+    
+    Deque<Integer> stack = new ArrayDeque<>();
+    Deque<Integer> indents = new ArrayDeque<>();
     int lineIndex = 0;
 
     for (String line : lines) {
