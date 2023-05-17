@@ -79,7 +79,7 @@ public class CodeAnalyzer {
     if (s.length() == 0) {
       return s;
     }
-    while (s.charAt(start) == ' ') {
+    while (start < s.length() && s.charAt(start) == ' ') {
       start++;
     }
     return s.substring(start);
