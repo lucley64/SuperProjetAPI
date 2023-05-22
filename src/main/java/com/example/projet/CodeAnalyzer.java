@@ -16,7 +16,8 @@ public class CodeAnalyzer {
   private LinkedList<Integer> nbLineFunction;
   private String fileContent;
   
-  public CodeAnalyzer(File inputFile) throws FileNotFoundException {
+  // Constructor if argument is a file
+  public CodeAnalyzer(File inputFile) throws FileNotFoundException { 
     pythonFile = inputFile;
     scanner = new Scanner(pythonFile);
     lines = new LinkedList<>();
@@ -27,7 +28,8 @@ public class CodeAnalyzer {
     calculateFunctionNb();
   }
 
-  public CodeAnalyzer(String fileContent) {
+  // Constructor if argument is a String
+  public CodeAnalyzer(String fileContent) { 
     this.fileContent = fileContent;
     lines = new LinkedList<>();
     nbLineFunction = new LinkedList<>();
@@ -37,7 +39,8 @@ public class CodeAnalyzer {
     calculateFunctionNb();
   }
 
-  private void readFile() {
+  // Adds each useful line (not empty or only spaces) to the linkedList of lines (File case)
+  private void readFile() { 
     String nextLine;
     while (scanner.hasNextLine()) {
       nextLine = scanner.nextLine();
@@ -47,7 +50,8 @@ public class CodeAnalyzer {
     }
   }
 
-  private void readString() {
+  // Adds each useful line (not empty or only spaces) to the linkedList of lines (String case)
+  private void readString() { 
     int start = 0;
     int end = fileContent.indexOf("\n");
     String line;
@@ -64,18 +68,20 @@ public class CodeAnalyzer {
     }
   }
 
-  private boolean valid(String line) {
+  // Returns false if the line is only spaces or empty, true otherwise
+  private boolean valid(String line) { 
     return !removeSpaces(line).equals("");
   }
 
-  public int getNbLines() {
+  // Returns the number of useful lines in the file
+  public int getNbLines() { 
     int nbLines;
     nbLines = lines.size();
     return nbLines;
   }
 
-  private String removeSpaces(String s) {
-    int start = 0;
+  // Removes the spaces before the first non-space character and return the resulted String
+  private String removeSpaces(String s) {     int start = 0;
     if (s.length() == 0) {
       return s;
     }
@@ -85,7 +91,8 @@ public class CodeAnalyzer {
     return s.substring(start);
   }
 
-  private int nbIndent(String s) {
+  // Returns the number of spaces before the first non-space character, to keep track of the indentation in the python code
+  private int nbIndent(String s) {  
     int res = 0;
     if (s.length() == 0) {
       return 0;
@@ -97,6 +104,8 @@ public class CodeAnalyzer {
     return res;
   }
 
+  // Calculates the number of lines in each function and store the results in the linkedList nbLineFunction
+  // Uses Stack (Deque) because declaring a function in a function is allowed in python
   private void calculateFunctionLine() {
     nbLineFunction.clear();
     
@@ -124,6 +133,7 @@ public class CodeAnalyzer {
     }
   }
 
+  // Gets the minimum amongst the functions line numbers
   public int getFunctionMin() {
     int min = 0;
     for (int nbLine : nbLineFunction) {
@@ -134,6 +144,7 @@ public class CodeAnalyzer {
     return min;
   }
 
+  // Gets the maximum amongst the functions line numbers
   public int getFunctionMax() {
     int max = 0;
     for (int nbLine : nbLineFunction) {
@@ -144,6 +155,7 @@ public class CodeAnalyzer {
     return max;
   }
 
+  // Calculates the average of the functions line numbers
   public float getFunctionAvg() {
     int total = 0;
     for (int nbLine : nbLineFunction) {
@@ -152,6 +164,7 @@ public class CodeAnalyzer {
     return (float)total / functionNumber;
   }
 
+  // Calculates the number of functions in the file and stores the result
   private void calculateFunctionNb() {
     functionNumber = 0;
     for (String line : lines) {
@@ -161,10 +174,12 @@ public class CodeAnalyzer {
     }
   }
 
+  // Returns the number of functions in the file
   public int getFunctionNb() {
     return functionNumber;
   }
 
+  // Returns the number of occurences of the argument in the file
   public int getNbOccurence(String s) {
     int nbOccurence = 0;
 

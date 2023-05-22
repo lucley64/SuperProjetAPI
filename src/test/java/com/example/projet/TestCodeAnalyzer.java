@@ -22,6 +22,6 @@ class TestCodeAnalyzer {
     public static void main(String[] args) throws Exception{
         File myFile = new File("./src/main/res/python/projetbac.py");
         CodeAnalyzer test = new CodeAnalyzer(myFile);
-        System.out.println(test.getFunctionAvg());
+        System.out.println(test.getNbLines());
     }
 }
