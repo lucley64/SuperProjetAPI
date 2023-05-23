@@ -197,4 +197,8 @@ public class CodeAnalyzer {
 
     return nbOccurence;
   }
+
+  public LinkedList<Integer> getNbLineFunction() {
+      return nbLineFunction;
+  }
 }
