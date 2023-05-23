@@ -1,6 +1,7 @@
 package com.example.projet;
 
 import java.io.File;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
@@ -20,8 +21,12 @@ class TestCodeAnalyzer {
     }
 
     public static void main(String[] args) throws Exception{
-        File myFile = new File("./src/main/res/python/projetbac.py");
+        File myFile = new File("./src/main/res/python/timer.py");
         CodeAnalyzer test = new CodeAnalyzer(myFile);
-        System.out.println(test.getNbLines());
+        List<Integer> list = test.getNbLineFunction();
+        for (int i : list) {
+            System.out.println(i);
+        }
+
     }
 }

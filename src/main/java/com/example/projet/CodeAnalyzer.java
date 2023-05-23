@@ -82,9 +82,13 @@ public class CodeAnalyzer {
   }
 
   // Removes the spaces before the first non-space character and return the resulted String
-  private String removeSpaces(String s) {     int start = 0;
+  private String removeSpaces(String s) {     
+    int start = 0;
     if (s.length() == 0) {
       return s;
+    }
+    while (start < s.length() && s.charAt(start) == '\t') {
+      start++;
     }
     while (start < s.length() && s.charAt(start) == ' ') {
       start++;
@@ -98,7 +102,9 @@ public class CodeAnalyzer {
     if (s.length() == 0) {
       return 0;
     }
-
+    while (res < s.length() && s.charAt(res) == '\t') {
+      res++;
+    }
     while (res < s.length() && s.charAt(res) == ' ') {
       res++;
     }

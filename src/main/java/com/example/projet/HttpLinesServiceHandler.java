@@ -44,7 +44,7 @@ class HttpLinesServiceHandler extends AHandler {
         functionData.put("avgLines", analyzer.getFunctionAvg());
         var linesFunctions = new JSONArray();
         analyzer.getNbLineFunction().forEach(linesFunctions::put);
-        functionData.put("linesPerJunction", linesFunctions);
+        functionData.put("linesPerFunction", linesFunctions);
         json.put("functionData", functionData);
         json.put("lines", analyzer.getNbLines());
 
