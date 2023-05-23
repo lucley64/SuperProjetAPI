@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.stream.Collectors;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -41,6 +42,9 @@ class HttpLinesServiceHandler extends AHandler {
         functionData.put("minLines", analyzer.getFunctionMin());
         functionData.put("maxLines", analyzer.getFunctionMax());
         functionData.put("avgLines", analyzer.getFunctionAvg());
+        var linesFunctions = new JSONArray();
+        analyzer.getNbLineFunction().forEach(linesFunctions::put);
+        functionData.put("linesPerJunction", linesFunctions);
         json.put("functionData", functionData);
         json.put("lines", analyzer.getNbLines());
 
