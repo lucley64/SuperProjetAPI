@@ -168,7 +168,7 @@ public class CodeAnalyzer {
     for (int nbLine : nbLineFunction) {
       total += nbLine;
     }
-    return (float)total / functionNumber;
+    return (functionNumber == 0)? 0 : (float)total / functionNumber;
   }
 
   // Calculates the number of functions in the file and stores the result

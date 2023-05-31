@@ -11,17 +11,23 @@ import com.sun.net.httpserver.HttpHandler;
 public abstract class AHandler implements HttpHandler {
     /**
      * Handles the response to the client
-     * @param httpExchange the http request stream
+     * 
+     * @param httpExchange     the http request stream
      * @param returnJsonObject the json to return
      * @throws IOException
      */
     protected void handleResponse(HttpExchange httpExchange, JSONObject returnJsonObject)
             throws IOException {
         OutputStream outputStream = httpExchange.getResponseBody();
+        var headers = httpExchange.getResponseHeaders();
+        headers.add("Access-Control-Allow-Headers", "x-prototype-version,x-requested-with");
+        headers.add("Access-Control-Allow-Methods", "GET,POST");
+        headers.add("Access-Control-Allow-Origin", "*");
 
         // encode HTML content
         String htmlResponse = returnJsonObject.toString();
         // this line is a must
+
         httpExchange.sendResponseHeaders(200, htmlResponse.length());
         outputStream.write(htmlResponse.getBytes());
         outputStream.flush();
