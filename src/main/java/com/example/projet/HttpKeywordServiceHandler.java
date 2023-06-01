@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.sun.net.httpserver.HttpExchange;
@@ -64,13 +65,16 @@ public class HttpKeywordServiceHandler extends AHandler {
      */
     private JSONObject createJson(String content, List<String> keywords) {
         var json = new JSONObject();
+        var kw = new JSONObject();
 
         var analyzer = new CodeAnalyzer(content);
 
 
-        keywords.forEach(k -> {
-            json.put(k, analyzer.getNbOccurence(k));
-        });
+        keywords.forEach(k -> 
+            kw.put(k, analyzer.getNbOccurence(k))
+        );
+
+        json.put("keywords", kw);
 
         return json;
     }
