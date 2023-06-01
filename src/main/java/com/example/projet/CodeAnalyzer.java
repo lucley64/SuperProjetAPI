@@ -71,7 +71,7 @@ public class CodeAnalyzer {
 
   // Returns false if the line is only spaces or empty, true otherwise
   private boolean valid(String line) { 
-    return !removeSpaces(line).equals("");
+    return !(removeSpaces(line).equals("") || (removeSpaces(line).charAt(0) == '#'));
   }
 
   // Returns the number of useful lines in the file

@@ -48,7 +48,6 @@ class HttpLinesServiceHandler extends AHandler {
         json.put("functionData", functionData);
         json.put("lines", analyzer.getNbLines());
 
-
         return json;
     }
 
